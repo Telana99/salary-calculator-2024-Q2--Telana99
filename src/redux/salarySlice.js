@@ -5,7 +5,6 @@ const initialState = {
     basicSalary: 0,
     earnings: [],
     deductions: [],
-    // Other state variables if needed
 };
 
 const salarySlice = createSlice({
@@ -18,12 +17,21 @@ const salarySlice = createSlice({
         addEarning: (state, action) => {
             state.earnings.push(action.payload);
         },
+        updateEarning: (state, action) => {
+            const { index, newEarning } = action.payload;
+            state.earnings[index] = newEarning;
+        },
+        deleteEarning: (state, action) => {
+            state.earnings.splice(action.payload, 1);
+        },
         addDeduction: (state, action) => {
             state.deductions.push(action.payload);
         },
-        // Add more reducers as needed
+        deleteDeduction: (state, action) => {
+            state.deductions.splice(action.payload, 1);
+        },
     },
 });
 
-export const { setBasicSalary, addEarning, addDeduction } = salarySlice.actions;
+export const { setBasicSalary, addEarning, updateEarning, deleteEarning, addDeduction, deleteDeduction } = salarySlice.actions;
 export default salarySlice.reducer;

@@ -1,35 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import React from 'react';
+import SalaryCalculator from './components/SalaryCalculator';
+import SalarySummary from './components/SalarySummary';
+import Earnings from './components/Earnings';
+import Deductions from './components/Deductions';
+import { Container } from './styles';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+    return (
+        <Container>
+            <SalaryCalculator />
+            <Earnings />
+            <Deductions />
+            <SalarySummary />
+        </Container>
+    );
+};
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+export default App;
