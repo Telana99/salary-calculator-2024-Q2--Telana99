@@ -32,4 +32,4 @@ A web application to calculate salary with basic salary, earnings, and deduction
 ## Contact
 For any questions, please reach out to Telena at telenathathsarani@gmail.com.
 
-https://github.com/Telana99/salary-calculator-2024-Q2--Telana99.git
+
