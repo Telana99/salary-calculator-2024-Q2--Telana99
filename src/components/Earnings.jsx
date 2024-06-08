@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import clearIcon from "../assets/clear.png"; 
-import addIcon from "../assets/add.png"
-import PopupWindow from "./PopupWindow";
+import clearIcon from "../assets/clear.png";
+import addIcon from "../assets/add.png";
 
 const Earnings = ({
   setTotalEarnings,
   setTotalEarningsEPFTrue,
   setTotalEarningsEPFFalse,
+  earnings,
+  setEarnings,
+  handleOpenEarningsPopup,
 }) => {
-  const [earnings, setEarnings] = useState([
-    { title: "", amount: "", epf: false },
-  ]);
-  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const totalTrue = earnings.reduce((sum, earning) => {
@@ -57,16 +55,12 @@ const Earnings = ({
     setEarnings(newEarnings);
   };
 
-  const handleAddEarning = (newEarning) => {
-    setEarnings([...earnings, newEarning]);
-  };
-
   return (
     <div className="section">
       <h3>Earnings</h3>
       <p>Allowance, Fixed Allowance, Bonus and etc.</p>
       {earnings.length === 0 ? (
-        <p></p>
+        <p>No earnings added yet.</p>
       ) : (
         earnings.map((earning, index) => (
           <div key={index} className="earning-item">
@@ -107,18 +101,11 @@ const Earnings = ({
         className="add-link"
         onClick={(e) => {
           e.preventDefault();
-          setShowPopup(true);
+          handleOpenEarningsPopup();
         }}
       >
-        <img src={addIcon}  /> Add
-        New Allowance
+        <img src={addIcon} /> Add New Allowance
       </a>
-      {showPopup && (
-        <PopupWindow
-          onClose={() => setShowPopup(false)}
-          onAdd={handleAddEarning}
-        />
-      )}
     </div>
   );
 };
@@ -127,6 +114,9 @@ Earnings.propTypes = {
   setTotalEarnings: PropTypes.func.isRequired,
   setTotalEarningsEPFTrue: PropTypes.func.isRequired,
   setTotalEarningsEPFFalse: PropTypes.func.isRequired,
+  earnings: PropTypes.array.isRequired,
+  setEarnings: PropTypes.func.isRequired,
+  handleOpenEarningsPopup: PropTypes.func.isRequired,
 };
 
 export default Earnings;

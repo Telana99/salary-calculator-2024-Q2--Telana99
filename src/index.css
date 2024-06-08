@@ -225,9 +225,7 @@ td {
 .amount {
   padding-left: 10px; 
 }
-/* index.css */
 
-/* Popup container styles */
 .popup-container {
   position: fixed;
   top: 50%;
@@ -242,7 +240,7 @@ td {
   z-index: 1000;
 }
 
-/* Styles for the dimmed background overlay */
+
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -253,7 +251,7 @@ td {
   z-index: 999;
 }
 
-/* General styles for text fields */
+
 .popup-container h3 {
   margin-top: 0;
   font-size: 20px;
@@ -277,13 +275,13 @@ td {
   font-size: 16px;
 }
 
-/* Styles for checkbox */
+
 .popup-container input[type="checkbox"] {
   margin-top: 10px;
   margin-right: 5px;
 }
 
-/* Container for buttons */
+
 .buttons-container {
   display: flex;
   justify-content: flex-end;
@@ -291,7 +289,7 @@ td {
   margin-top: 20px;
 }
 
-/* General styles for buttons */
+
 .popup-container button {
   padding: 10px 20px;
   border: none;
@@ -300,18 +298,17 @@ td {
   font-size: 16px;
 }
 
-/* Cancel button styles */
+
 .popup-container button:nth-child(1) {
   background: #f0f0f0;
 }
 
-/* Add button styles */
+
 .popup-container button:nth-child(2) {
   background: #007bff;
   color: white;
 }
 
-/* Responsive design for popup */
 @media screen and (max-width: 768px) {
   .popup-container {
     width: 90%;

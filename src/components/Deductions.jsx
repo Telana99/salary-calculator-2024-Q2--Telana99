@@ -1,30 +1,23 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import clearIcon from "../assets/clear.png";
-import addIcon from "../assets/add.png"
-import PopupWindow from "./PopupWindow";
+import addIcon from "../assets/add.png";
 
-const Deductions = ({ onTotalDeductionChange }) => {
-  const [sections, setSections] = useState([{ title: "", amount: "" }]);
-  const [showPopup, setShowPopup] = useState(false);
+const Deductions = ({ deductions, setDeductions, onTotalDeductionChange, handleOpenDeductionsPopup }) => {
 
-  const addSection = (newSection) => {
-    setSections([...sections, newSection]);
+  const removeSection = (index) => {
+    const updatedSections = [...deductions];
+    updatedSections.splice(index, 1);
+    setDeductions(updatedSections);
   };
 
   const handleInputChange = (index, field, value) => {
-    const updatedSections = [...sections];
+    const updatedSections = [...deductions];
     updatedSections[index][field] = value;
-    setSections(updatedSections);
+    setDeductions(updatedSections);
   };
 
-  const removeSection = (index) => {
-    const updatedSections = [...sections];
-    updatedSections.splice(index, 1);
-    setSections(updatedSections);
-  };
-
-  const totalDeduction = sections.reduce(
+  const totalDeduction = deductions.reduce(
     (total, section) => total + parseFloat(section.amount || 0),
     0
   );
@@ -34,7 +27,7 @@ const Deductions = ({ onTotalDeductionChange }) => {
     <div className="section">
       <h3>Deductions</h3>
       <p>Salary Advances, Loan Deductions, and all</p>
-      {sections.map((section, index) => (
+      {deductions.map((section, index) => (
         <div key={index} className="deduction-item">
           <input
             className="input-medium"
@@ -64,23 +57,20 @@ const Deductions = ({ onTotalDeductionChange }) => {
         className="add-link"
         onClick={(e) => {
           e.preventDefault();
-          setShowPopup(true);
+          handleOpenDeductionsPopup();
         }}
       >
-        <img src={addIcon} /> Add New Allowance
+        <img src={addIcon} /> Add New Deduction
       </a>
-      {showPopup && (
-        <PopupWindow
-          onClose={() => setShowPopup(false)}
-          onAdd={addSection}
-        />
-      )}
     </div>
   );
 };
 
 Deductions.propTypes = {
+  deductions: PropTypes.array.isRequired,
+  setDeductions: PropTypes.func.isRequired,
   onTotalDeductionChange: PropTypes.func.isRequired,
+  handleOpenDeductionsPopup: PropTypes.func.isRequired,
 };
 
 export default Deductions;
