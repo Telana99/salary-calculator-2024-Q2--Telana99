@@ -1,8 +1,35 @@
-# React + Vite
+# Salary Calculator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
+A web application to calculate salary with basic salary, earnings, and deductions.
 
-Currently, two official plugins are available:
+## Setup Instructions
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Prerequisites
+- Node.js (v14 or later)
+- npm (v6 or later)
+
+### Installation
+
+1. Clone the repository:
+    ```
+    git clone https://github.com/Telana99/salary-calculator-2024-Q2--Telana99.git
+    cd salary-calculator-2020-Q2-Telana99
+    ```
+
+2. Install dependencies:
+    ```
+    npm install
+    ```
+
+### Running the Application
+
+1. Start the development server:
+    ```
+    npm run dev
+    ```
+
+## Contact
+For any questions, please reach out to Telena at telenathathsarani@gmail.com.
+
+https://github.com/Telana99/salary-calculator-2024-Q2--Telana99.git
