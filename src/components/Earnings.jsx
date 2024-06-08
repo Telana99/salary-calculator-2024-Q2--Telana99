@@ -1,60 +1,132 @@
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import clearIcon from "../assets/clear.png"; 
+import addIcon from "../assets/add.png"
+import PopupWindow from "./PopupWindow";
 
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addEarning, updateEarning, deleteEarning } from '../redux/salarySlice';
+const Earnings = ({
+  setTotalEarnings,
+  setTotalEarningsEPFTrue,
+  setTotalEarningsEPFFalse,
+}) => {
+  const [earnings, setEarnings] = useState([
+    { title: "", amount: "", epf: false },
+  ]);
+  const [showPopup, setShowPopup] = useState(false);
 
-const Earnings = () => {
-    const [earningName, setEarningName] = useState('');
-    const [earningAmount, setEarningAmount] = useState(0);
-    const [isEPFApplicable, setIsEPFApplicable] = useState(false);
-    const earnings = useSelector((state) => state.salary.earnings);
-    const dispatch = useDispatch();
+  useEffect(() => {
+    const totalTrue = earnings.reduce((sum, earning) => {
+      if (earning.epf) {
+        return sum + parseFloat(earning.amount || 0);
+      } else {
+        return sum;
+      }
+    }, 0);
+    setTotalEarningsEPFTrue(totalTrue);
 
-    const handleAddEarning = () => {
-        dispatch(addEarning({ name: earningName, amount: earningAmount, isEPFApplicable }));
-        setEarningName('');
-        setEarningAmount(0);
-        setIsEPFApplicable(false);
-    };
+    const totalFalse = earnings.reduce((sum, earning) => {
+      if (!earning.epf) {
+        return sum + parseFloat(earning.amount || 0);
+      } else {
+        return sum;
+      }
+    }, 0);
+    setTotalEarningsEPFFalse(totalFalse);
 
-    const handleDeleteEarning = (index) => {
-        dispatch(deleteEarning(index));
-    };
-
-    return (
-        <div>
-            <h3>Earnings</h3>
-            <input
-                type="text"
-                placeholder="Earning Name"
-                value={earningName}
-                onChange={(e) => setEarningName(e.target.value)}
-            />
-            <input
-                type="number"
-                placeholder="Earning Amount"
-                value={earningAmount}
-                onChange={(e) => setEarningAmount(Number(e.target.value))}
-            />
-            <label>
-                <input
-                    type="checkbox"
-                    checked={isEPFApplicable}
-                    onChange={(e) => setIsEPFApplicable(e.target.checked)}
-                />
-                EPF Applicable
-            </label>
-            <button onClick={handleAddEarning}>Add Earning</button>
-            <ul>
-                {earnings.map((earning, index) => (
-                    <li key={index}>
-                        {earning.name}: {earning.amount} {earning.isEPFApplicable ? "(EPF Applicable)" : ""}
-                        <button onClick={() => handleDeleteEarning(index)}>Delete</button>
-                    </li>
-                ))}
-            </ul>
-        </div>
+    const totalAll = earnings.reduce(
+      (sum, earning) => sum + parseFloat(earning.amount || 0),
+      0
     );
+    setTotalEarnings(totalAll);
+  }, [
+    earnings,
+    setTotalEarnings,
+    setTotalEarningsEPFTrue,
+    setTotalEarningsEPFFalse,
+  ]);
+
+  const removeEarning = (index) => {
+    const newEarnings = earnings.filter((_, i) => i !== index);
+    setEarnings(newEarnings);
+  };
+
+  const updateEarning = (index, field, value) => {
+    const newEarnings = earnings.map((earning, i) =>
+      i === index ? { ...earning, [field]: value } : earning
+    );
+    setEarnings(newEarnings);
+  };
+
+  const handleAddEarning = (newEarning) => {
+    setEarnings([...earnings, newEarning]);
+  };
+
+  return (
+    <div className="section">
+      <h3>Earnings</h3>
+      <p>Allowance, Fixed Allowance, Bonus and etc.</p>
+      {earnings.length === 0 ? (
+        <p></p>
+      ) : (
+        earnings.map((earning, index) => (
+          <div key={index} className="earning-item">
+            <input
+              className="input-medium"
+              type="text"
+              name="title"
+              placeholder="Pay Details (Title)"
+              value={earning.title}
+              onChange={(e) => updateEarning(index, "title", e.target.value)}
+            />
+            <input
+              className="input-small"
+              type="text"
+              name="amount"
+              placeholder="Amount"
+              value={earning.amount}
+              onChange={(e) => updateEarning(index, "amount", e.target.value)}
+            />
+            <div
+              className="remove-icon-container"
+              onClick={() => removeEarning(index)}
+            >
+              <img src={clearIcon} className="remove-icon" alt="Remove" />
+            </div>
+            <input
+              type="checkbox"
+              name="epf"
+              checked={earning.epf}
+              onChange={(e) => updateEarning(index, "epf", e.target.checked)}
+            />{" "}
+            EPF/ETF
+          </div>
+        ))
+      )}
+      <a
+        href="#"
+        className="add-link"
+        onClick={(e) => {
+          e.preventDefault();
+          setShowPopup(true);
+        }}
+      >
+        <img src={addIcon}  /> Add
+        New Allowance
+      </a>
+      {showPopup && (
+        <PopupWindow
+          onClose={() => setShowPopup(false)}
+          onAdd={handleAddEarning}
+        />
+      )}
+    </div>
+  );
+};
+
+Earnings.propTypes = {
+  setTotalEarnings: PropTypes.func.isRequired,
+  setTotalEarningsEPFTrue: PropTypes.func.isRequired,
+  setTotalEarningsEPFFalse: PropTypes.func.isRequired,
 };
 
 export default Earnings;

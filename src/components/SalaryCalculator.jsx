@@ -1,29 +1,56 @@
+import BasicSalary from "./BasicSalary";
+import Earnings from "./Earnings";
+import Deductions from "./Deductions";
+import SalaryDetails from "./SalarySummary";
+import { useState } from "react";
+import resetIcon from "../assets/reset.png"
 
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setBasicSalary, addEarning, addDeduction } from '../redux/salarySlice';
+const App = () => {
+  const [basicSalary, setBasicSalary] = useState(0);
+  const [totalEarnings, setTotalEarnings] = useState(0);
+  const [totalEarningsEPFTrue, setTotalEarningsEPFTrue] = useState(0);
+  const [totalEarningsEPFFalse, setTotalEarningsEPFFalse] = useState(0);
+  const [totalDeduction, setTotalDeduction] = useState(0);
 
-const SalaryCalculator = () => {
-    const dispatch = useDispatch();
-    const basicSalary = useSelector((state) => state.salary.basicSalary);
+  return (
+    <div className="container">
+      <div className="calculator">
+        <div className="header-content">
+          <h4>Calculate Your Salary</h4>
+          <a
+            href="#"
+            className="reset-link"
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+           
+            
+            <img src={resetIcon} alt="Reset Icon" style={{ width: '50px', height: '50px' }}  />
 
-    const handleBasicSalaryChange = (e) => {
-        dispatch(setBasicSalary(Number(e.target.value)));
-    };
-
-    // Implement similar functions for adding earnings and deductions
-
-    return (
-        <div>
-            <h2>Calculate Your Salary</h2>
-            <input 
-                type="number" 
-                value={basicSalary} 
-                onChange={handleBasicSalaryChange} 
-            />
-            {/*have to add UI for Earnings and Deductions */}
+          </a>
         </div>
-    );
+        <BasicSalary
+          basicSalary={basicSalary}
+          setBasicSalary={setBasicSalary}
+        />
+        <Earnings
+          setTotalEarnings={setTotalEarnings}
+          setTotalEarningsEPFTrue={setTotalEarningsEPFTrue}
+          setTotalEarningsEPFFalse={setTotalEarningsEPFFalse}
+        />
+        <Deductions onTotalDeductionChange={setTotalDeduction} />{" "}
+       
+      </div>
+      <SalaryDetails
+        basicSalary={basicSalary}
+        total={totalEarnings}
+        totalDeduction={totalDeduction}
+        totalEarningsEPFTrue={totalEarningsEPFTrue}
+        totalEarningsEPFFalse={totalEarningsEPFFalse}
+      />
+    </div>
+  );
 };
 
-export default SalaryCalculator;
+export default App;
